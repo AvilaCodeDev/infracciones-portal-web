@@ -15,6 +15,7 @@ export interface infoUsuario {
     dependencia:    string;
     nombreCompleto: string;
     numeroEmpleado: number;
+    token: string;
 }
 
 export interface Menu {

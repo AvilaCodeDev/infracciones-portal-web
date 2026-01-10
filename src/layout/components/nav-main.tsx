@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronRight, type LucideIcon } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 
 import {
     Collapsible,
@@ -17,48 +17,44 @@ import {
     SidebarMenuSubButton,
     SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
+import type { Menu } from "@/modules/auth/interfaces"
+import { srtSinAcentos } from "@/helpers/srtSinAcentos"
+import { Link } from "react-router-dom"
 
-export function NavMain({
-    items,
-}: {
-    items: {
-        title: string
-        url: string
-        icon?: LucideIcon
-        isActive?: boolean
-        items?: {
-            title: string
-            url: string
-        }[]
-    }[]
-}) {
+interface Props{
+    items: Menu[]
+}
+
+export function NavMain( { items }:Props) {
     return (
         <SidebarGroup>
             <SidebarGroupLabel>Platform</SidebarGroupLabel>
             <SidebarMenu>
                 {items.map((item) => (
                     <Collapsible
-                        key={item.title}
+                        key={item.nombreMenu}
                         asChild
-                        defaultOpen={item.isActive}
+                        // defaultOpen={item.isActive}
                         className="group/collapsible"
                     >
                         <SidebarMenuItem>
                             <CollapsibleTrigger asChild>
-                                <SidebarMenuButton tooltip={item.title}>
-                                    {item.icon && <item.icon />}
-                                    <span>{item.title}</span>
+                                <SidebarMenuButton tooltip={item.nombreMenu}>
+                                    {/* {item.icon && <item.icon />} */}
+                                    <span>{item.nombreMenu}</span>
                                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                                 </SidebarMenuButton>
                             </CollapsibleTrigger>
                             <CollapsibleContent>
                                 <SidebarMenuSub>
-                                    {item.items?.map((subItem) => (
-                                        <SidebarMenuSubItem key={subItem.title}>
+                                    {item.submenus?.map((subItem) => (
+                                        <SidebarMenuSubItem key={subItem.nombreSubmenu}>
                                             <SidebarMenuSubButton asChild>
-                                                <a href={subItem.url}>
-                                                    <span>{subItem.title}</span>
-                                                </a>
+                                                <Link to={
+                                                    `./${srtSinAcentos(item.nombreMenu).toLowerCase().replace(' ','')}/${srtSinAcentos(subItem.nombreSubmenu).toLowerCase().replace(' ','')}`
+                                                }>
+                                                    <span>{subItem.nombreSubmenu}</span>
+                                                </Link>
                                             </SidebarMenuSubButton>
                                         </SidebarMenuSubItem>
                                     ))}

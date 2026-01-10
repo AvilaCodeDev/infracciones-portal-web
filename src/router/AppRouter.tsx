@@ -4,6 +4,7 @@ import { useUserStore } from "@/modules/auth/store/userStore"
 import { useEffect } from "react"
 import { Route, Routes, useNavigate } from "react-router-dom"
 import { PrivateRoute } from "./PrivateRoute"
+import { UsuariosPage } from "@/modules/configuracion/usuarios/pages/UsuariosPage"
 
 export const AppRouter = () => {
     const infoUsuario = useUserStore(state => state.infoUsuario);
@@ -24,6 +25,10 @@ export const AppRouter = () => {
                 element={<PrivateRoute isAuthenticated={infoUsuario != null} component={<LayoutPage />} />}
             >
                 <Route index element={<h1>Home</h1>} />
+
+                <Route path="configuracion">
+                    <Route path="usuarios" element={ <UsuariosPage />} />
+                </Route>
             </Route>
         </Routes>
     )
