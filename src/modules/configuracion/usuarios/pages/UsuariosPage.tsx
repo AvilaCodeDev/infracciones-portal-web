@@ -9,7 +9,7 @@ import { AddUserModal } from "../components/AddUserModal";
 import { useGetRoles } from "../hooks/useGetRoles";
 
 export const UsuariosPage = () => {
-  
+
   const [isOpen, setIsOpen] = useState(false);
 
   const {
@@ -17,10 +17,10 @@ export const UsuariosPage = () => {
     error,
     data
   } = useGetUsuarios();
-  
+
   useGetRoles();
 
-  if(error) return <h1>No se pudo cargar el modulo</h1>
+  if (error) return <h1>No se pudo cargar el modulo</h1>
 
   return (
     <>
@@ -30,7 +30,7 @@ export const UsuariosPage = () => {
             <div className="flex justify-between items-center">
               <CardTitle className="text-2xl">Usuarios</CardTitle>
               <div>
-                <Button className="w-50" onClick={ () => setIsOpen( true )}>Agregar Usuario</Button>
+                <Button className="w-50" onClick={() => setIsOpen(true)}>Agregar Usuario</Button>
               </div>
             </div>
           </CardHeader>
@@ -51,14 +51,14 @@ export const UsuariosPage = () => {
                     </TableHeader>
                     <TableBody>
                       {
-                        data.data.map( (usuario:Usuario) => (
-                        <TableRow>
-                          <TableCell className="font-medium">{usuario.numero_empleado}</TableCell>
-                          <TableCell>{usuario.nombre_completo}</TableCell>
-                          <TableCell>{usuario.correo}</TableCell>
-                          <TableCell>{usuario.rol}</TableCell>
-                        </TableRow>
-                        ) )
+                        data.data.map((usuario: Usuario) => (
+                          <TableRow>
+                            <TableCell className="font-medium">{usuario.numero_empleado}</TableCell>
+                            <TableCell>{usuario.nombre_completo}</TableCell>
+                            <TableCell>{usuario.correo}</TableCell>
+                            <TableCell>{usuario.rol}</TableCell>
+                          </TableRow>
+                        ))
                       }
                     </TableBody>
                   </Table>
@@ -68,7 +68,7 @@ export const UsuariosPage = () => {
         </Card>
       </ModuleCard>
 
-      <AddUserModal isOpen={ isOpen }/>
+      <AddUserModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
   )
 }

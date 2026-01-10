@@ -1,26 +1,32 @@
 import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input"
-import { useForm, type SubmitHandler } from "react-hook-form"
+import { useForm, type SubmitHandler, Controller } from "react-hook-form"
 import { useGetRoles } from "../hooks/useGetRoles";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { RolUsuario, Usuario } from "../interfaces";
 import { Button } from "@/components/ui/button";
+import { useAgregarUsuario } from "../hooks/useAgregarUsuario";
 
+interface Props {
+    onClose: () => void
+}
 
-export const UsuariosForm = () => {
+export const UsuariosForm = ({ onClose }: Props) => {
 
     const { data, isFetching } = useGetRoles();
+    const agregarUsuario = useAgregarUsuario(onClose);
 
     const {
         register,
-        handleSubmit
+        handleSubmit,
+        control
     } = useForm<Usuario>();
 
     const onSubmit: SubmitHandler<Usuario> = (data) => {
-        console.log(data);
+        agregarUsuario.mutate(data);
     }
     return (
-        <form onSubmit={ handleSubmit( onSubmit )}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <FieldSet>
                 <FieldGroup>
                     <FieldGroup className="flex flex-row">
@@ -36,23 +42,32 @@ export const UsuariosForm = () => {
                         </Field>
                         <Field>
                             <FieldLabel>Rol</FieldLabel>
-                            <Select>
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Selecciona un rol" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {
-                                        isFetching
-                                            ? <SelectItem value="">Cargando...</SelectItem>
-                                            : (
-                                                data.data.map((rol: RolUsuario) => {
-                                                    console.log(rol)
-                                                    return <SelectItem key={`rol-${rol.id}`} value={rol.id.toString()} >{rol.nombre}</SelectItem>
-                                                })
-                                            )
-                                    }
-                                </SelectContent>
-                            </Select>
+                            <Controller
+                                name="rol"
+                                control={control}
+                                rules={{ required: true }}
+                                render={({ field }) => (
+                                    <Select
+                                        onValueChange={field.onChange}
+                                        defaultValue={field.value}
+                                    >
+                                        <SelectTrigger className="w-[180px]">
+                                            <SelectValue placeholder="Selecciona un rol" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {
+                                                isFetching
+                                                    ? <SelectItem value="">Cargando...</SelectItem>
+                                                    : (
+                                                        data.data.map((rol: RolUsuario) => {
+                                                            return <SelectItem key={`rol-${rol.id}`} value={rol.id.toString()} >{rol.nombre}</SelectItem>
+                                                        })
+                                                    )
+                                            }
+                                        </SelectContent>
+                                    </Select>
+                                )}
+                            />
                         </Field>
                     </FieldGroup>
                     <Field>
@@ -81,16 +96,6 @@ export const UsuariosForm = () => {
                             autoComplete="off"
                             className="appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                             {...register("telefono", { required: true })}
-                        />
-                    </Field>
-                    <Field>
-                        <FieldLabel>Contraseña</FieldLabel>
-                        <Input
-                            id="contraseña"
-                            type="password"
-                            placeholder="Contraseña"
-                            autoComplete="off"
-                            {...register("password", { required: true })}
                         />
                     </Field>
                 </FieldGroup>

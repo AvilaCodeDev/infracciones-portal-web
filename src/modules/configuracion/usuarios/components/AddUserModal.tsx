@@ -3,16 +3,17 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 
 interface Props {
     isOpen: boolean
+    onClose: () => void
 }
 
-export const AddUserModal = ({ isOpen }: Props) => {
+export const AddUserModal = ({ isOpen, onClose }: Props) => {
     return (
-        <Dialog open={ isOpen }>
+        <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Usuario</DialogTitle>
                 </DialogHeader>
-                <UsuariosForm />
+                <UsuariosForm onClose={onClose} />
             </DialogContent>
         </Dialog>
     )
