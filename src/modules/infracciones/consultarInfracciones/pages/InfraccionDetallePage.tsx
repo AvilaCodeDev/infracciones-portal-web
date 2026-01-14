@@ -210,11 +210,16 @@ export const InfraccionDetallePage = () => {
                                     {infraccion.evidencias.map((evidencia: Evidencia, index: number) => (
                                         <div key={index} className="relative group">
                                             <img
-                                                src={`https://mrcvl.com${evidencia.url}`}
+                                                src={`${import.meta.env.VITE_API_URL}${evidencia.url}`}
                                                 alt={`Evidencia ${index + 1}`}
                                                 className="w-full h-48 object-cover rounded-lg border border-gray-700 hover:border-blue-500 transition-colors cursor-pointer"
-                                                onClick={() => window.open(`https://mrcvl.com${evidencia.url}`, '_blank')}
+                                                onClick={() => window.open(`${import.meta.env.VITE_API_URL}${evidencia.url}`, '_blank')}
                                             />
+                                            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all rounded-lg flex items-center justify-center">
+                                                <p className="text-white opacity-0 group-hover:opacity-100 text-sm">
+                                                    Click para ampliar
+                                                </p>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
