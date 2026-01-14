@@ -7,8 +7,14 @@ export interface Infracciones {
 }
 
 export interface Evidencia {
-    filename: string;
+    index: number;
     url: string;
+    public_id: string;
+    width: number;
+    height: number;
+    format: string;
+    size: number;
+    created_at: string;
 }
 
 export interface InfraccionDetalle {
