@@ -210,10 +210,10 @@ export const InfraccionDetallePage = () => {
                                     {infraccion.evidencias.map((evidencia: Evidencia, index: number) => (
                                         <div key={index} className="relative group">
                                             <img
-                                                src={`${import.meta.env.VITE_SERVER_URL}${evidencia.url}`}
+                                                src={`https://mrcvl.com${evidencia.url}`}
                                                 alt={`Evidencia ${index + 1}`}
                                                 className="w-full h-48 object-cover rounded-lg border border-gray-700 hover:border-blue-500 transition-colors cursor-pointer"
-                                                onClick={() => window.open(`${import.meta.env.VITE_SERVER_URL}${evidencia.url}`, '_blank')}
+                                                onClick={() => window.open(`https://mrcvl.com${evidencia.url}`, '_blank')}
                                             />
                                         </div>
                                     ))}
